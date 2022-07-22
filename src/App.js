@@ -8,12 +8,12 @@ function App() {
   return (
     <div>
       <p>
-        <Link to="/dashboard"> Dashboard </Link> 
+        <Link to="/"> Dashboard </Link> 
       </p>
       <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/details/:id" element={<Details />} />
-        <Route path="/products/:id/edit" element={<Edit />} />
+        <Route path="/products/:id" element={<Edit />} />
       </Routes>
     </div>
   );

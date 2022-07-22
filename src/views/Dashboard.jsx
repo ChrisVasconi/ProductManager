@@ -6,30 +6,30 @@ import DisplayTable from '../components/DisplayTable'
 const Dashboard = () => {
     const [productList, setProductList] = useState([])
     const [refresh, setRefresh] = useState(true)
+    //used to update list when an item is deleted from the list
+
     useEffect(() => {
         axios.get(`http://localhost:8000/api/products`)
-            .then(res => {
-
-                // console.log(res)
-                setProductList(res.data)
-            })
+            .then(res => { setProductList(res.data) })
             .catch(err => console.log(err))
-    }, [refresh, productList])
+    }, [refresh])
 
     const removeFromProductList = (deleteId) => {
-        const filteredList = productList.filter((eachProduct, i) => {
-            return (
-                eachProduct._id == deleteId
-            )
-        })
-        setProductList(filteredList)
+        axios.delete(`http://localhost:8000/api/products/${deleteId}`)
+            .then(res => setRefresh(!refresh))
+            //!refresh === changing refresh from the opposite of what it was true/false
+            .catch(err => console.log(err))
     }
 
+    const refreshPage = () => {
+        setRefresh(!refresh)
+    }
 
 
     return (
         <div>
-            <DisplayTable productList={productList} updateProductList={removeFromProductList} />
+            <DisplayTable productList={productList} updateProductList={removeFromProductList} refreshPage={refreshPage} />
+
         </div>
     )
 }
